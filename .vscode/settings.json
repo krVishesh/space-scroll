@@ -1,0 +1,19 @@
+{
+  "C_Cpp.intelliSenseEngine": "default",
+  "idf.extensionActivationMode": "always",
+  "idf.openOcdConfigs": [
+    "board/esp32c6-builtin.cfg"
+  ],
+  "idf.port": "/dev/ttyACM0",
+  "idf.currentSetup": "/home/taklaman/.espressif/v6.0.1/esp-idf",
+  "idf.customExtraVars": {
+    "IDF_TARGET": "esp32c6"
+  },
+  "clangd.path": "/home/taklaman/.espressif/tools/esp-clang/esp-20.1.1_20250829/esp-clang/bin/clangd",
+  "clangd.arguments": [
+    "--background-index",
+    "--query-driver=**",
+    "--compile-commands-dir=/home/taklaman/Files/embedded/esp/space-scroll/build"
+  ],
+  "idf.flashType": "DFU"
+}

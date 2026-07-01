@@ -1,0 +1,4 @@
+dependencies:
+  espp/as5600: "^1.1.4"
+  espp/i2c: "^1.1.4"
+  espressif/led_strip: "^3.0.0"
