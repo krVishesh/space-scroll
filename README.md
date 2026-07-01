@@ -99,3 +99,7 @@ done
 - **Release** (`sdkconfig.defaults.release`): `LOG_DEFAULT_LEVEL_WARN` — errors and warnings only
 
 Battery divider values are defined in `main/board_config.h` (R1=100K, R2=220K → ratio ≈1.45).
+
+## License
+
+MIT — see [LICENSE](LICENSE).
