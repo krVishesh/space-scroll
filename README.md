@@ -1,3 +1,6 @@
+
+https://github.com/user-attachments/assets/78839f34-7eab-401c-9ef1-ad8e1e3004d6
+
 # Space Scroll
 
 High-resolution wireless scroll dial for ESP32-C6 using an AS5600 magnetic encoder, BLE HID Resolution Multiplier (NimBLE), WS2812 status LED, and LiPo battery monitoring.
