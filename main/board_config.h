@@ -17,14 +17,14 @@
 /* LiPo divider: Li+ -> R1 -> GPIO5 (ADC) -> R2 -> GND
  * Vbat = Vadc * (R1 + R2) / R2 */
 #define BOARD_BATTERY_R1_OHM         100000
-#define BOARD_BATTERY_R2_OHM         220000
+#define BOARD_BATTERY_R2_OHM         100000
 #define BOARD_BATTERY_DIVIDER_RATIO  ((float)(BOARD_BATTERY_R1_OHM + BOARD_BATTERY_R2_OHM) / (float)BOARD_BATTERY_R2_OHM)
 #define BOARD_BATTERY_VREF_MV        3300
-/* LiPo 0%/100% for percentage display (not the red-LED threshold). */
+/* LiPo 0%/100% for percentage display and low-battery LED. */
 #define BOARD_BATTERY_EMPTY_MV       3000
 #define BOARD_BATTERY_FULL_MV        4200
-/* Red LED below this; 3.6 V is healthy, warn near ~3.35 V under load. */
-#define BOARD_BATTERY_LOW_MV         3350
+/* Red LED at or below this charge level (~3.3 V on the scale above). */
+#define BOARD_BATTERY_LOW_PCT        25
 #define BOARD_BATTERY_SAMPLE_MS      2000
 
 #define BOARD_DEVICE_NAME       "SpaceScroll"

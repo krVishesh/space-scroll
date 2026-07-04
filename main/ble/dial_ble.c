@@ -22,6 +22,21 @@ static esp_hidd_dev_t *s_hid_dev;
 static bool s_ble_connected;
 static volatile bool s_hi_res_active;
 static bool s_has_feature_report;
+static uint8_t s_battery_pct = 0xFF; /* 0xFF = not yet sampled */
+
+static void dial_ble_push_battery_level(void)
+{
+    if (s_hid_dev == NULL || s_battery_pct > 100) {
+        return;
+    }
+
+    esp_err_t err = esp_hidd_dev_battery_set(s_hid_dev, s_battery_pct);
+    if (err != ESP_OK) {
+        APP_LOGD("BAS battery level update failed: %d", err);
+    } else {
+        APP_LOGD("BAS battery level=%u%%", s_battery_pct);
+    }
+}
 
 /* Hi-res BLE mouse with Resolution Multiplier (usage 0x48) feature report.
  * Layout matches ESP32-BLE-Mouse #78 / Engineer Bo / Microsoft wheel.docx pattern.
@@ -157,6 +172,7 @@ static void hid_event_handler(void *handler_args, esp_event_base_t base, int32_t
         APP_LOGI("HID host connected");
         s_ble_connected = true;
         s_hi_res_active = false;
+        dial_ble_push_battery_level();
         xTaskCreate(hi_res_enable_task, "hi_res_en", 2048, NULL, 5, NULL);
         break;
     case ESP_HIDD_FEATURE_EVENT:
@@ -247,4 +263,16 @@ bool dial_ble_is_connected(void)
 bool dial_ble_hi_res_active(void)
 {
     return s_hi_res_active;
+}
+
+void dial_ble_set_battery_percent(uint8_t pct)
+{
+    if (pct > 100) {
+        pct = 100;
+    }
+    if (pct == s_battery_pct) {
+        return;
+    }
+    s_battery_pct = pct;
+    dial_ble_push_battery_level();
 }

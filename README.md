@@ -12,7 +12,7 @@ High-resolution wireless scroll dial for ESP32-C6 using an AS5600 magnetic encod
 | AS5600 SCL | 19 |
 | AS5600 SDA | 20 |
 | WS2812 data | 8 |
-| Battery divider | 5 (R1=100K to Li+, R2=220K to GND) |
+| Battery divider | 5 (R1=100K to Li+, R2=100K to GND) |
 
 ## Dependencies
 

@@ -745,9 +745,11 @@ esp_err_t esp_hid_ble_gap_adv_start(void)
 
 #if CONFIG_BT_NIMBLE_ENABLED
 #define GATT_SVR_SVC_HID_UUID 0x1812
+#define GATT_SVR_SVC_BAS_UUID 0x180F
 
 extern void ble_hid_task_start_up(void);
 static struct ble_hs_adv_fields fields;
+static ble_uuid16_t s_adv_uuids16[2];
 
 /* 7.5 ms connection interval (BLE minimum) for low HID scroll latency. */
 static int esp_hid_gap_request_low_latency(uint16_t conn_handle)
@@ -767,13 +769,13 @@ static int esp_hid_gap_request_low_latency(uint16_t conn_handle)
 
 esp_err_t esp_hid_ble_gap_adv_init(uint16_t appearance, const char *device_name)
 {
-    ble_uuid16_t *uuid16, *uuid16_1;
+    (void)appearance;
     /**
      *  Set the advertisement data included in our advertisements:
      *     o Flags (indicates advertisement type and other general info).
      *     o Advertising tx power.
      *     o Device name.
-     *     o 16-bit service UUIDs (HID).
+     *     o 16-bit service UUIDs (HID, Battery).
      */
 
     memset(&fields, 0, sizeof fields);
@@ -799,13 +801,10 @@ esp_err_t esp_hid_ble_gap_adv_init(uint16_t appearance, const char *device_name)
     fields.name_len = strlen(device_name);
     fields.name_is_complete = 1;
 
-    uuid16 = (ble_uuid16_t *)malloc(sizeof(ble_uuid16_t));
-    uuid16_1 = (ble_uuid16_t[]) {
-        BLE_UUID16_INIT(GATT_SVR_SVC_HID_UUID)
-    };
-    memcpy(uuid16, uuid16_1, sizeof(ble_uuid16_t));
-    fields.uuids16 = uuid16;
-    fields.num_uuids16 = 1;
+    s_adv_uuids16[0] = (ble_uuid16_t)BLE_UUID16_INIT(GATT_SVR_SVC_HID_UUID);
+    s_adv_uuids16[1] = (ble_uuid16_t)BLE_UUID16_INIT(GATT_SVR_SVC_BAS_UUID);
+    fields.uuids16 = s_adv_uuids16;
+    fields.num_uuids16 = 2;
     fields.uuids16_is_complete = 1;
 
     /* Initialize the security configuration */

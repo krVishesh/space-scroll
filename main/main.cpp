@@ -111,8 +111,8 @@ bool init_encoder(void)
 
 void update_status_led(uint8_t battery_pct, uint16_t battery_mv)
 {
-    (void)battery_pct;
-    if (battery_mv > 0 && battery_mv < BOARD_BATTERY_LOW_MV) {
+    (void)battery_mv;
+    if (battery_mv > 0 && battery_pct <= BOARD_BATTERY_LOW_PCT) {
         status_led_set_low_battery();
         return;
     }
@@ -167,12 +167,19 @@ void dial_task(void *param)
 
     APP_LOGI("Dial task started");
 
+    battery_mv = battery_read_mv();
+    battery_pct = battery_percent_from_mv(battery_mv);
+    dial_ble_set_battery_percent(battery_pct);
+    last_battery = xTaskGetTickCount();
+    update_status_led(battery_pct, battery_mv);
+
     while (true) {
         const TickType_t now = xTaskGetTickCount();
 
         if ((now - last_battery) >= pdMS_TO_TICKS(BOARD_BATTERY_SAMPLE_MS)) {
             battery_mv = battery_read_mv();
             battery_pct = battery_percent_from_mv(battery_mv);
+            dial_ble_set_battery_percent(battery_pct);
             last_battery = now;
             APP_LOGD("Battery %u mV (%u%%)", battery_mv, battery_pct);
         }

@@ -16,6 +16,8 @@ void dial_ble_send_scroll(int8_t wheel);
 bool dial_ble_is_connected(void);
 /** True after host (or firmware) enables the Resolution Multiplier feature report. */
 bool dial_ble_hi_res_active(void);
+/** Push battery level (0–100) to the BLE Battery Service (BAS). */
+void dial_ble_set_battery_percent(uint8_t pct);
 
 #ifdef __cplusplus
 }
