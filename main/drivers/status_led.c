@@ -14,7 +14,8 @@ void status_led_init(void)
         .strip_gpio_num = BOARD_WS2812_GPIO,
         .max_leds = BOARD_WS2812_LED_COUNT,
         .led_model = LED_MODEL_WS2812,
-        .color_component_format = LED_STRIP_COLOR_COMPONENT_FMT_GRB,
+        /* RGB order: GRB makes connected green (0,32,0) appear red on this LED. */
+        .color_component_format = LED_STRIP_COLOR_COMPONENT_FMT_RGB,
     };
 
     led_strip_rmt_config_t rmt_config = {

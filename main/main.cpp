@@ -181,6 +181,7 @@ void dial_task(void *param)
             battery_pct = battery_percent_from_mv(battery_mv);
             dial_ble_set_battery_percent(battery_pct);
             last_battery = now;
+            update_status_led(battery_pct, battery_mv);
             APP_LOGD("Battery %u mV (%u%%)", battery_mv, battery_pct);
         }
 
